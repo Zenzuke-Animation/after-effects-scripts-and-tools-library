@@ -91,11 +91,12 @@ export default function Home() {
       // Auto-detect environments
       // On development (running Next), we call /api/scripts
       // On cPanel/PHP host, we call api.php or absolute ./data/scripts.json
+      // For static export (no Next.js server), default to api.php
       const isNextDev = window.location.port === '3500' || window.location.port === '3000' || window.location.hostname.includes('europe-west2.run.app');
-      let url = "/api/scripts";
+      let url = "./api.php";
       
-      if (!isNextDev) {
-        url = "./api.php";
+      if (isNextDev) {
+        url = "/api/scripts";
       }
 
       const res = await fetch(url);
@@ -136,12 +137,9 @@ export default function Home() {
   // --- Database Persistence Update Trigger ---
   const saveScriptsCatalog = async (updatedList: ScriptItem[]) => {
     try {
+      // For static export, default to api.php; only use /api/scripts if running Next.js dev
       const isNextDev = window.location.port === '3000' || window.location.hostname.includes('europe-west2.run.app');
-      let url = "/api/scripts";
-      
-      if (!isNextDev) {
-        url = "./api.php";
-      }
+      let url = isNextDev ? "/api/scripts" : "./api.php";
 
       const res = await fetch(url, {
         method: "POST",
