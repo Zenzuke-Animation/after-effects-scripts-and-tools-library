@@ -58,7 +58,7 @@ Using cPanel File Manager, FTP client (like FileZilla), or SSH:
 | `api.php` | `0644` | Read + execute by server |
 | Upload folder | `0755` | Standard directory permission |
 
-> **If the admin panel can't save changes:** The web server user (e.g., `www-data`, `apache`, `nobody`) needs write access to `scripts.json`. Try `0666` or `0777` temporarily for testing, then lock it down.
+> **⚠️ CRITICAL: Do NOT use `0777` permissions!** On cPanel servers with security modules (Imunify360, suPHP, etc.), files with `0777` permissions trigger a **silent 404 error** instead of a proper permission denied response. Always use `0644` (or `0664` if the web server group needs write access). If the admin panel can't save changes, check that `scripts.json` is `0644` or `0664` — never `0777`.
 
 ---
 
