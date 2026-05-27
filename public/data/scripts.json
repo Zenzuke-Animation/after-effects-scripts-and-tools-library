@@ -1,0 +1,38 @@
+[
+  {
+    "id": "easy-bake-keyframes",
+    "name": "Easy Bake Keyframes",
+    "version": "1.2",
+    "description": "Converts administrative and expression-heavy rigs into clean, baked keyframes on selected properties, speeding up timeline rendering.",
+    "instructions": "1. Select the layers and properties with active expressions.\n2. Open the script from File > Scripts > Run Script File...\n3. Select your desired frame range and click 'Bake Expressions'.",
+    "timelineCreation": "It does not create new layers; it creates baked keyframe values on existing properties and disables active expressions.",
+    "limitations": "Large compositions (over 10,000 frames) or complex layer hierarchies can experience a slight performance delay during the baking process.",
+    "typicalUses": "Preparing rig compositions for Lottie or Web export, simplifying heavy expressions before handing over files to clients or other animators.",
+    "downloadUrl": "https://www.dropbox.com/scl/fi/placeholder/easy_bake.jsx?rlkey=placeholder&dl=1",
+    "category": "Keyframes"
+  },
+  {
+    "id": "anchor-point-aligner",
+    "name": "Anchor Point Aligner",
+    "version": "2.0",
+    "description": "Instantly repositions the anchor point of selected layers to any of the 9 standard box positions (corners, edges, center) without moving the layer's visual position on screen.",
+    "instructions": "1. Select one or more layers in your active composition.\n2. Open the Anchor Point Aligner script panel.\n3. Click one of the 9 alignment buttons (e.g. Top Left, Center, Bottom Right).\n4. The anchor point will shift, and the layer will remain in place.",
+    "timelineCreation": "Re-positions the anchor point on the selected layers in the timeline without changing their spatial Transform coordinates.",
+    "limitations": "Only works on layers with standard transform coordinates. 3D layers require camera space considerations to avoid visual shifts.",
+    "typicalUses": "Adjusting scale or rotation reference points for text layers or shape layers prior to animating.",
+    "downloadUrl": "https://www.dropbox.com/scl/fi/placeholder/anchor_aligner.jsx?rlkey=placeholder&dl=1",
+    "category": "Timeline"
+  },
+  {
+    "id": "null-controller-creator",
+    "name": "Null Controller Creator",
+    "version": "1.0",
+    "description": "Creates a null object positioned at the average center of all selected layers and automatically links their position properties to it via expressions.",
+    "instructions": "1. Select two or more layers in your composition.\n2. Launch the Null Controller Creator tool.\n3. Click 'Create Controller'.\n4. Position expressions will be generated for the child layers linking them to the new controller.",
+    "timelineCreation": "Creates a new Null Object layer named 'Null Controller' placed at the top of the active timeline hierarchy.",
+    "limitations": "Linked child layers must not have pre-existing position expressions, as they will be overwritten by the parent null hook.",
+    "typicalUses": "Quick grouping of assets, character rigging joint controls, complex multi-layer translations.",
+    "downloadUrl": "https://www.dropbox.com/scl/fi/placeholder/null_controller.jsx?rlkey=placeholder&dl=1",
+    "category": "Rigging"
+  }
+]

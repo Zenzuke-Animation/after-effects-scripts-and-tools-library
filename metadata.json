@@ -1,0 +1,6 @@
+{
+  "name": "After Effects Scripts & Tools",
+  "description": "A clean, configurable catalog for After Effects scripts and actions, featuring a simple local admin panel and PHP cPanel deployment preparation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
