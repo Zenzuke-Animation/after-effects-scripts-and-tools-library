@@ -23,7 +23,10 @@ You need [Node.js](https://nodejs.org/) installed on your computer.
 cd D:\Dropbox\VibeC\after-effects-scripts-and-tools-library
 npm install
 npm run build
+powershell -NoProfile -ExecutionPolicy Bypass -File fix-paths.ps1
 ```
+
+> **Important:** The `fix-paths.ps1` script converts absolute paths (`/_next/...`) to relative paths (`./_next/...`) so the app works correctly when deployed to a **subdirectory** (e.g. `public_html/scripts/`).
 
 This generates a fully static `out/` folder with optimized HTML, CSS, and JS.
 
