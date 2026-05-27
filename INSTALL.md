@@ -1,0 +1,123 @@
+# After Effects Scripts & Tools — Installation Guide
+
+Deploy this app to any standard PHP hosting (cPanel, shared hosting, etc.) via FTP. No MySQL or Node.js runtime required on the server.
+
+---
+
+## Quick Summary
+
+| Requirement | Detail |
+|---|---|
+| **Server** | PHP 7.4+ with file write access |
+| **Database** | None — data stored in `scripts.json` |
+| **Upload method** | FTP / SFTP / cPanel File Manager |
+| **Admin password** | Default: `ae-admin-123` (change before production!) |
+
+---
+
+## Step 1 — Build the Static Site (Local Machine)
+
+You need [Node.js](https://nodejs.org/) installed on your computer.
+
+```bash
+cd D:\Dropbox\VibeC\after-effects-scripts-and-tools-library
+npm install
+npm run build
+```
+
+This generates a fully static `out/` folder with optimized HTML, CSS, and JS.
+
+---
+
+## Step 2 — Upload to Your Server via FTP
+
+Upload the following files **to the same folder** on your server (e.g. `public_html/scripts/`):
+
+| File | Source | Purpose |
+|---|---|---|
+| **All contents of `out/`** | `out/` folder | Static frontend (HTML, CSS, JS) |
+| **`api.php`** | `public/api.php` | PHP backend (reads/writes `scripts.json`) |
+| **`scripts.json`** | `public/data/scripts.json` | Initial script catalog data |
+
+> **Tip:** Upload the *contents* of `out/` (not the `out/` folder itself). The root of your upload should contain `index.html`, `api.php`, and `scripts.json`.
+
+---
+
+## Step 3 — Set File Permissions
+
+Using cPanel File Manager, FTP client (like FileZilla), or SSH:
+
+| Item | Permission | Why |
+|---|---|---|
+| `scripts.json` | `0644` (or `0666` if 0644 fails) | Must be **writable** by the web server so the admin panel can save changes |
+| `api.php` | `0644` | Read + execute by server |
+| Upload folder | `0755` | Standard directory permission |
+
+> **If the admin panel can't save changes:** The web server user (e.g., `www-data`, `apache`, `nobody`) needs write access to `scripts.json`. Try `0666` or `0777` temporarily for testing, then lock it down.
+
+---
+
+## Step 4 — Change the Admin Password
+
+Open `api.php` in any text editor and find line 24:
+
+```php
+define('ADMIN_PASSWORD', 'ae-admin-123');
+```
+
+Replace `'ae-admin-123'` with your own secure password, then upload the file again.
+
+---
+
+## Step 5 — Access Your App
+
+Open your browser and navigate to your uploaded folder:
+
+```
+https://yourdomain.com/scripts/
+```
+
+- **Browsing the catalog** works for everyone (public).
+- **Admin panel** (add/edit/delete scripts) requires the password you set in Step 4. Click **"Admin Panel"** to log in.
+
+---
+
+## File Structure on Server
+
+```
+public_html/scripts/
+├── index.html          (from out/)
+├── _next/              (from out/)
+├── ...                 (other static assets from out/)
+├── api.php             (PHP backend)
+└── scripts.json        (data file — auto-updated by admin panel)
+```
+
+---
+
+## How It Works
+
+1. **Frontend** (`out/`): Pure static HTML/CSS/JS — no server-side rendering needed.
+2. **Backend** (`api.php`): Handles GET (read catalog) and POST (save catalog) requests.
+3. **Data** (`scripts.json`): A JSON file on disk acts as the "database". The PHP API reads/writes it.
+4. **Auto-detection**: The app automatically detects whether it's running on the local dev server (port 3000/3500) or on a production server, and routes API calls accordingly.
+
+---
+
+## Troubleshooting
+
+| Problem | Solution |
+|---|---|
+| Admin panel can't save changes | Check `scripts.json` permissions — the web server must be able to write to it |
+| 404 errors on page load | Ensure all files from `out/` are uploaded to the correct folder |
+| CORS errors during testing | `api.php` already includes CORS headers (`Access-Control-Allow-Origin: *`) |
+| `scripts.json` is empty | The file was never uploaded — upload `public/data/scripts.json` from the project |
+
+---
+
+## Updating the Catalog
+
+1. Log in to the admin panel (click **"Admin Panel"**, enter your password).
+2. Add, edit, or delete script entries using the built-in editor.
+3. Changes are saved directly to `scripts.json` on your server — **no manual file editing needed**.
+4. To export your catalog data, use the **"cPanel Deployment"** button in the app to copy/download `scripts.json`.
